@@ -4,7 +4,7 @@
 
 Si puedes mejora el código, bienvenido!
 
-##Template
+## Template
 
 ```html
 <template id="template">
