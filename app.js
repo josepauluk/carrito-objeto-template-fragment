@@ -1,9 +1,9 @@
 const carrito = document.getElementById("carrito");
 const template = document.getElementById("template");
 const fragment = document.createDocumentFragment();
-const btnesBotones = document.querySelectorAll(".card .btn");
+const btnesBotones = document.querySelector(".card .bt");
 
-const carritoObjeto = {};
+const carritoObjeto = [];
 
 const agregarAlCarrito = (e) => {
   console.log(e.target.dataset.fruta);
@@ -14,29 +14,33 @@ const agregarAlCarrito = (e) => {
     cantidad: 1,
   };
 
-  if (carritoObjeto.hasOwnProperty(producto.titulo)) {
-    producto.cantidad = carritoObjeto[producto.titulo].cantidad + 1;
+  const indice = carritoObjeto.findIndex((item) => item.id === producto.id);
+
+  console.log(indice);
+
+  if (indice === -1) {
+    carritoObjeto.push(producto);
+  } else {
+    carritoObjeto[indice].cantidad++;
   }
 
-  carritoObjeto[producto.titulo] = producto;
+  console.log(carritoObjeto);
 
-  pintarCarrito();
-
-  // console.log(carritoObjeto);
+  pintarCarrito(carritoObjeto);
 };
 
-const pintarCarrito = () => {
+const pintarCarrito = (array) => {
   carrito.textContent = "";
 
-  Object.values(carritoObjeto).forEach((item) => {
-    const clone = template.content.firstElementChild.cloneNode(true);
-    clone.querySelector(".lead").textContent = item.titulo;
+  array.forEach((item) => {
+    const clone = template.contentEditable.firstElementChild.cloneNode(true);
+    clone.querySelector(".lead").textoContent = item.titulo;
     clone.querySelector(".badge").textContent = item.cantidad;
 
-    fragment.appendChild(clone);
+    fragment.append(clone);
   });
 
-  carrito.appendChild(fragment);
+  carrito.append(fragment);
 };
 
 btnesBotones.forEach((btn) => btn.addEventListener("click", agregarAlCarrito));
